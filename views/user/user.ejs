@@ -1,0 +1,139 @@
+<html>
+	<head>
+		<% include ../headers/default_header %>
+	</head>
+	<body>
+		<div class='panal'>
+			<div class='panel-header'>
+				<h1 style='color:blue;'>
+					User
+				</h1>
+			</div>
+			<div class='panel-body'>
+				<table class='table'>
+					<tr>
+						<td>
+						Create User
+						</td>
+						<td>
+							<div id='test-user-form'>
+								<form action='/user' id='user-form' class='form' method='POST' dataType='json'>
+									<label for='user-name'>Name</label>
+									<input type='input' name='user-name' class='form-control' />
+									<br>
+									<label for='user-id'>ID</label>
+									<input type='input' name='user-id' class='form-control' />
+									<br>
+									<button class='btn btn-sm' type='submit'>
+										submit
+									</button>
+								</form>
+							</div>
+						</td>
+					<tr>
+						<td>
+							Read User
+						</td>
+						<td>
+							<div id='read-user-form'>
+								<label for='user-name-show'>Name</label>
+								<div name='user-name-show'>
+								</div>
+								<br>
+								<label for='user-id-show'>ID</label>
+								<div name='user-id-show'>
+								</div>
+								<br>
+								<button class='btn btn-sm' type='button' onclick='javascript:getUserAndRender();'>
+									show User
+								</button>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Update User
+						</td>
+						<td>
+							<form id='update-user-form' class='form' action='/user' dataType='json' method='POST'>
+								<input type='hidden' name='_method' value='PUT' />
+								<label for='user-name'>Name</label>
+								<input type='input' name='user-name' class='form-control' />
+								<br>
+								<label for='user-id'>ID</label>
+								<input type='input' name='user-id' class='form-control' />
+								<br>
+								<button class='btn btn-sm' type='submit'>
+									submit
+								</button>
+							</form>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Delete User
+						</td>
+						<td>
+							<form id='delete-user-form' class='form' action='/user' dataType='json' method='POST'>
+								<input type='hidden' name='_method' value='DELETE' />
+								<button class='btn btn-sm' type='submit'>
+									submit
+								</button>
+							</form>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class='panel-footer'>
+				<a href='/'>
+					<button type='button' class='btn btn-sm btn-primary'>
+						toMain
+					</button>
+				</a>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script text='text/javascript'>
+	$(function(){
+		$('form#user-form').submit(function(){
+			if($('input[name="user-name"]').val().length == 0){
+				$('input[name=user-name]').focus();
+				alert('enter name');
+				return false;
+			}
+			if($('input[name="user-id"]').val().length == 0){
+				$('input[name=user-id]').focus();
+				alert('enter id');
+				return false;
+			}
+		});
+		$('form#update-user-form').submit(function(){
+			console.log($('form#update-user-form').attr('type', 'PUT'));
+			//return false;
+		});
+	});
+	var getUserAndRender = function(){
+		$.ajax({
+			url : '/user',
+			type : 'GET',
+			dataType : 'json',
+			success : function(msg){
+				console.log(msg);
+				renderUserForm(msg);
+			}
+		});
+	};
+	var renderUserForm = function(msg){
+		/*
+		msg
+		{
+			name : d1,
+			id : d2
+		}
+		*/
+		$('div[name=user-id-show]').text(msg.id);
+		$('div[name=user-name-show]').text(msg.name);
+	};
+</script>

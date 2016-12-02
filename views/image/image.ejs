@@ -1,0 +1,93 @@
+<html>
+	<head>
+		<% include ../headers/default_header %>
+	</head>
+	<body>
+		<div class='panel'>
+			<div class='panel-header'>
+				<h1 style='color:blue;'>
+					Image
+				</h1>
+			</div>
+			<div class='panel-body'>
+				<table class='table'>
+					<tr>
+						<td>
+							Upload Image(C)
+						</td>
+						<td>
+							<form action='' method='POST' enctype='multipart/form-data' id='image-upload-form'>
+								<input type='file' name='image-file' />
+								<button type='submit' class='btn btn-sm btn-primary'>
+									submit
+								</button>
+							</form>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Read Image(R)
+						</td>
+						<td>
+							<image src='/image/Crawler_diagram.gif.gif' style='width:100px;height:100px' />
+							<button type='button' class='btn btn-sm btn-primary' onclick='javascript:getImage();'>
+								getImage
+							</button>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Update Image(U)
+						</td>
+						<td>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Delete Image(D)
+						</td>
+						<td>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class='panel-footer'>
+				<a href='/'>
+					<button class='btn btn-sm btn-primary'>
+						toMain
+					</button>
+				</a>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script>
+$(function(){
+	$('form#image-upload-form').submit(function(){
+		var file = $('input[name=image-file]')[0].files[0];
+		if(!file){
+			console.log('undefined file');
+			return false;
+		}
+		$('form#image-upload-form').attr('action', '/image/' + file.name);
+	});
+});
+var getImage = function(){
+	$.ajax({
+		url : '/image/Crawler_diagram.gif.gif',
+		type : 'GET',
+		statusCode : {
+			500 : function(xhr){
+				alert(xhr.responseText);
+			}
+		},
+		success : function(msg){
+			console.log(msg);
+		},
+		fail : function(err){
+			console.log(err);
+		}
+	});
+};
+</script>

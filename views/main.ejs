@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<% include ./headers/default_header %>
+	</head>
+	<body>
+		<div>
+		this is main body
+		</div>
+		<div>
+			<a href='/template/user'>
+				<button type='button' class='btn btn-sm btn-success'>
+					User
+				</button>
+			</a>
+			<a href='/template/image'>
+				<button type='button' class='btn btn-sm btn-success'>
+					Image
+				</button>
+			</a>
+		</div>
+	</body>
+</html>
+<script>
+$(function(){
+	console.log(typeof /test/g);
+	replaceTest(new RegExp('%ssss%', 'g'), 'test');
+});
+var replaceTest = function(target, to){
+	var res = 'anothor%ssss%string';
+	console.log('before : %s\n', res);
+	res = res.replace(target, to);
+	console.log('after : %s\n', res);
+	console.log('type : %s\tstructure : %s\n', typeof target, target);
+};
+</script>
