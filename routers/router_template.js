@@ -29,10 +29,36 @@ router.get('/template/:target', function(req, res){
 			res.render('../views/ws/ws_form');
 		}
 		break;
+		case 'db':
+		{
+			res.render('../views/db/db_main');
+		}
+		break;
 		default : 
 		{
 			res.writeHead(404);
 			res.end('No Page Detected');
+		}
+		break;
+	}
+});
+router.get('/template/:target1/:target2', function(req, res){
+	switch(req.params.target1){
+		case'db':
+		{
+			switch(req.params.target2){
+				case 'person':
+				{
+					res.render('../views/db/person/person');
+				}
+				break;
+				default:
+				{
+					res.writeHead(404);
+					res.end('No Page Detected');
+				}
+				break;
+			}
 		}
 		break;
 	}

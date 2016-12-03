@@ -1,0 +1,27 @@
+drop table friend;
+drop table person_know;
+drop table person;
+
+create table person(
+	id int not null,
+	name varchar(30) not null,
+	primary key(id)
+);
+create table person_know(
+	id int not null,
+	know_id int not null,
+	primary key(id, know_id),
+	foreign key(id) references person(id),
+	foreign key(know_id) references person(id)
+);
+create table friend(
+	id1 int not null,
+	id2 int not null,
+	primary key(id1, id2),
+	foreign key(id1) references person(id) on update cascade on delete cascade,
+	foreign key(id2) references person(id) on update cascade on delete cascade
+);
+
+insert into person values (1, 'name1');
+insert into person values (2, 'name2');
+insert into person values (3, 'name3');

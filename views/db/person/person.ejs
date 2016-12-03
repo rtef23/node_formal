@@ -1,0 +1,118 @@
+<html>
+	<head>
+		<% include ../../headers/default_header %>
+	</head>
+	<body>
+		<h3>
+			Person
+		</h3>
+		<div class='panel'>
+			<div class='panel-body'>
+				<table class='table'>
+					<tr>
+						<td>
+							Read All Person
+						</td>
+						<td>
+							<div class='list-group' id='all-person-list' style='height:400px;overflow-y:scroll;'>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Create Person
+						</td>
+						<td>
+							<div class='panel'>
+								<div class='panel-body'>
+									<form action='/persons' id='create-person-form' method='POST'>
+										<label for='id'>
+											ID
+										</label>
+										<input type='number' name='id' placeholder='enter id here' />
+										<label for='name'>
+											Name
+										</label>
+										<input type='text' name='name' placeholder='enter name here' />
+										<button type='submit' class='btn btn-sm btn-primary'>
+											submit
+										</button>
+									</form>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class='panel-footer'>
+				<a href='/'>
+					<button class='btn btn-sm btn-primary'>
+						toMain
+					</button>
+				</a>
+				<a href='/template/db'>
+					<button class='btn btn-sm btn-primary'>
+						toDBMain
+					</button>
+				</a>
+			</div>
+		</div>
+	</body>
+</html>
+<div id='person-form' style='display:none;'>
+	<div class='list-group-item' id='%person_id%'>
+		<table class='table'>
+			<tr>
+				<td>
+					ID
+				</td>
+				<td>
+					Name
+				</td>
+			</tr>
+			<tr>
+				<td>
+					%person_id%
+				</td>
+				<td>
+					%person_name%
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script>
+$(function(){
+	//to read all persons
+	$.ajax({
+		url : '/persons',
+		dataType:'json',
+		method : 'GET',
+		success : function(data){
+			console.log(JSON.stringify(data));
+			for(var i in data){
+				var form = $('div#person-form').html();
+				form = form.replace(/%person_id%/g, data[i].id);
+				form = form.replace(/%person_name%/g, data[i].name);
+				$('div#all-person-list').append(form);
+			}
+		}
+	});
+	$.ajax({
+		url : '/persons',
+		dataType : 'json',
+		method : 'PUT',
+		success : function(data){
+			console.log(JSON.stringify(data));
+		}
+	});
+	$.ajax({
+		url : '/persons',
+		dataType : 'json',
+		method : 'DELETE',
+		success : function(data){
+			console.log(JSON.stringify(data));
+		}
+	});
+});
+</script>
