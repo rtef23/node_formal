@@ -24,6 +24,17 @@ router.get('/template/:target', function(req, res){
 			res.render('../views/image/image');
 		}
 		break;
+		case 'ws':
+		{
+			res.render('../views/ws/ws_form');
+		}
+		break;
+		default : 
+		{
+			res.writeHead(404);
+			res.end('No Page Detected');
+		}
+		break;
 	}
 });
 

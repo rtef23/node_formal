@@ -7,6 +7,7 @@ var body_parser = require('body-parser');
 var router_templates = require('./routers/router_template');
 var router_user = require('./routers/router_user');
 var router_image = require('./routers/router_image');
+var router_ws = require('./routers/router_ws');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -36,3 +37,6 @@ var server = app.listen(port, function(){
 app.use('/', router_templates);
 app.use('/user', router_user);
 app.use('/image', router_image);
+
+//for websocket
+require('./routers/router_ws')(app);

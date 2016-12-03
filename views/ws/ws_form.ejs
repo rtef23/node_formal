@@ -1,0 +1,65 @@
+<html>
+	<head>
+		<% include ../headers/default_header %>
+	</head>
+	<body>
+		<table class='table'>
+			<tr>
+				<td>
+					Create Message
+				</td>
+				<td>
+					<div class='panel panel-body'>
+						<input type='text' id='message-client' />
+						<button class='btn btn-sm btn-primary' type='button' id='send-msg' onclick='javascript:sendMsg($("input#message-client").val());'>
+							Send
+						</button>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Read Message
+				</td>
+				<td>
+					<div class='list-group' id='msg-from-server' style='overflow-y:scroll;width:700px;height:100%;'>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href='/'>
+						<button class='btn btn-sm btn-primary'>
+							toMain
+						</button>
+					</a>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
+<script text='text/javascript'>
+	var socket;
+
+	$(function(){
+		socket = new WebSocket('ws://localhost:3002/');
+		socket.onopen = function(){
+			alert('socket is connected');
+		};
+		socket.onmessage = function(event){
+			var msg = JSON.parse(event.data).message;
+			var rendered = msg.res;
+			if(msg.yours)
+				rendered = 'about "' + msg.yours + '" response is that "' + msg.res + '"';
+			$('div#msg-from-server').append('<div class="list-group-item">' + rendered + '</div>');
+		};
+	});
+	var sendMsg = function(msg){
+		if(!socket){
+			console.log('return');
+			return;
+		}
+		console.log(msg);
+		socket.send(JSON.stringify({message : msg}));
+	};
+</script>
